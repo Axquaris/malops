@@ -15,20 +15,26 @@
         form.elements['openid'].value = openid;
     }
     </script>
-    <h1>Sign In</h1>
-    <form action="" method="post" name="login">
+    <h1>Create a new Charachter!</h1>
+    <form action="" method="post" name="create">
         {{ form.hidden_tag() }}
         <p>
-            Please enter your OpenID, or select one of the providers below:<br>
-            {{ form.openid(size=80) }}
-            {% for error in form.openid.errors %}
+            Name:<br>
+            {{ form.name(size=40) }}
+            {% for error in form.name.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}<br>
-            |{% for pr in providers %}
-                <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');">{{ pr.name }}</a> |
-            {% endfor %}
+            Class:<br>
+            {{ form.type(size=10) }}
+            {% for error in form.type.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            XP Amount:<br>
+            {{ form.xp(size=10) }}
+            {% for error in form.xp.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
         </p>
-        <p>{{ form.remember_me }} Remember Me</p>
-        <p><input type="submit" value="Sign In"></p>
+        <p><input type="submit" value="Create"></p>
     </form>
 {% endblock %}

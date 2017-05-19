@@ -2,10 +2,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-    <p>
-      {{ post.author.nickname }} says: <b>{{ post.body }}</b>
-    </p>
-    {% endfor %}
+<div class="jumbotron">
+      <h1>This is Malops!</h1>
+      <p>Malops is a DND game manager that saves multiple Dungeon Master lives every day!</p>
+      <p>
+          <a class="btn btn-primary btn-lg" href="/dungeonmaster" role="button">DM Start Here!</a>
+          <a class="btn btn-primary btn-lg" href="/newadventurer" role="button">Create a new character</a>
+      </p>
+    </div>
+    <hr>
+    <div class="row">
+        {% for a in adventurers %}
+      <div class="col-sm-4 col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h3>{{ a.name }}</h3>
+            <p>Level {{ a.level }} {{ a.type }}</p>
+            <p><a href="#" class="btn btn-primary" role="button">Play</a></p>
+          </div>
+        </div>
+      </div>
+          {% endfor %}
+    </div>
 {% endblock %}
