@@ -38,3 +38,11 @@ def dungeonmaster():
     return render_template('dungeonmaster.html',
                            title='DM Interface',
                            adventurers=adventurers)
+
+@app.route('/charsheet')
+def charsheet():
+    adventurer = models.Adventurer.query.first()
+
+    return render_template('charsheet.html',
+                           title='Charachter Sheet Test',
+                           char=adventurer)
