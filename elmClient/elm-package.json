@@ -1,10 +1,11 @@
 {
-    "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
-    "license": "BSD3",
+    "version": "0.1.0",
+    "summary": "A DND tool for parties to automate and organize tedious parts of the game",
+    "repository": "https://github.com/Axquaris/malops.git",
+    "license": "MIT",
     "source-directories": [
-        "."
+        "src",
+        "tests"
     ],
     "exposed-modules": [],
     "dependencies": {

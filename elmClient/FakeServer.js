@@ -1,7 +1,57 @@
 http = require('http');
 fs = require('fs');
+path = require('path');
 server = http.createServer( function(req, res) {
 
+    if(req.url === "/" || req.url === "/compiled.js" || req.url === "/css.css"){
+      let filePath = '.' + req.url;
+      if (filePath == './')
+          filePath = './index.html';
+
+      let extname = path.extname(filePath);
+      let contentType = 'text/html';
+      switch (extname) {
+          case '.js':
+              contentType = 'text/javascript';
+              break;
+          case '.css':
+              contentType = 'text/css';
+              break;
+          case '.json':
+              contentType = 'application/json';
+              break;
+          case '.png':
+              contentType = 'image/png';
+              break;
+          case '.jpg':
+              contentType = 'image/jpg';
+              break;
+          case '.wav':
+              contentType = 'audio/wav';
+              break;
+      }
+
+      fs.readFile(filePath, function(error, content) {
+          if (error) {
+              if(error.code == 'ENOENT'){
+                  fs.readFile('./404.html', function(error, content) {
+                      res.writeHead(200, { 'Content-Type': contentType });
+                      res.end(content, 'utf-8');
+                  });
+              }
+              else {
+                  res.writeHead(500);
+                  res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                  res.end();
+              }
+          }
+          else {
+              res.writeHead(200, { 'Content-Type': contentType });
+              res.end(content, 'utf-8');
+          }
+      });
+      return;
+    }
     if (req.method == 'POST') {
         console.log("POST");
         var body = '';
@@ -50,13 +100,42 @@ server = http.createServer( function(req, res) {
 
 });
 
-let players = [{
-  characterName : "Sindri",
-  xp : 9001
-},{
-  characterName : "Andar",
-  xp : 32400
-}];
+let players = [
+  {
+    "id":0,
+    "name":"Sindri",
+    "xp":9001,
+    "class":"Paladin",
+    "alignment":"Neutral Good",
+    "maxHP":72,
+    "currentHP":70,
+    "ac":18,
+    "movement":25,
+    "str":17,
+    "dex":13,
+    "con":13,
+    "int":13,
+    "wis":12,
+    "cha":17
+  },
+  {
+    "id":1,
+    "name":"Andar",
+    "xp":34236,
+    "class":"",
+    "alignment":"",
+    "maxHP":0,
+    "currentHP":0,
+    "ac":0,
+    "movement":0,
+    "str":0,
+    "dex":0,
+    "con":0,
+    "int":0,
+    "wis":0,
+    "cha":0
+  }
+];
 
 port = 5000;
 host = '127.0.0.1';
