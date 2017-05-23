@@ -60,8 +60,17 @@ server = http.createServer( function(req, res) {
         });
         req.on('end', function () {
             console.log(req.url + " " + body);
-            players.push(JSON.parse(body));
-            res.end(JSON.stringify(players));
+            if(req.url === "/characters"){
+              players.push(JSON.parse(body));
+              res.end(JSON.stringify(players));
+            } else if( req.url.indexOf("/characters") !== -1){
+              let id = req.url.substring("/characters/".length);
+              players[id] = JSON.parse(body);
+              res.end("Updated");
+            } else {
+              res.end(JSON.stringify(players));
+            }
+
         });
         var headers = {};
         headers["Access-Control-Allow-Origin"] = "*";

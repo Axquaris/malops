@@ -1,13 +1,21 @@
-module Rest exposing (postNewCharacter, getCharacters)
+module Rest exposing (postNewCharacter, getCharacters, postExistingCharacter)
 
 import Http
-import Types exposing (Msg)
+import Types exposing (Msg, MainMessages)
 import CommonTypes exposing (Character)
 import Json.Decode
 
 postNewCharacter : Character -> Cmd Msg
 postNewCharacter character =
-  (Http.send Types.SucessfulPost (Http.post "http://localhost:5000/characters"
+  (Http.send (\r -> (Types.MainMsg (Types.SucessfulPost r)))
+   (Http.post "http://localhost:5000/characters"
+   (getCharacterJson character)
+    Json.Decode.string))
+
+postExistingCharacter : Character -> Cmd Msg
+postExistingCharacter character =
+  (Http.send (\r -> (Types.MainMsg (Types.SucessfulPost r)))
+   (Http.post ("http://localhost:5000/characters/" ++ (toString character.id))
    (getCharacterJson character)
     Json.Decode.string))
 
@@ -17,7 +25,7 @@ getCharacterJson character =
 
 getCharacters : Cmd Msg
 getCharacters =
-  (Http.send Types.GotCharacters (getCharactersGet))
+  (Http.send (\r -> (Types.MainMsg (Types.GotCharacters r))) (getCharactersGet))
 
 getCharactersGet : Http.Request (List Character)
 getCharactersGet =

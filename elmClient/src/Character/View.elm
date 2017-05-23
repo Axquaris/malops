@@ -7,7 +7,7 @@ import Html.Attributes exposing (..)
 import Types exposing (Msg)
 
 import CommonTypes exposing (Character)
-import Character.Types exposing (Model)
+import Character.Types exposing (Model, CharacterMsg)
 
 root : Model -> Html Msg
 root model =
@@ -28,15 +28,21 @@ root model =
 
 fillModifiers : Character -> List (Html Msg)
 fillModifiers character =
-  [(modifierDisplay "Strength" character.str)
-  ,(modifierDisplay "Dexterity" character.dex)
-  ,(modifierDisplay "Constitution" character.con)
-  ,(modifierDisplay "Intelligence" character.int)
-  ,(modifierDisplay "Wisdom" character.wis)
-  ,(modifierDisplay "Charisma" character.cha)]
+  [(modifierDisplay "Strength" character.str Character.Types.IncreaseStr
+    Character.Types.DecreaseStr)
+  ,(modifierDisplay "Dexterity" character.dex Character.Types.IncreaseDex
+    Character.Types.DecreaseDex)
+  ,(modifierDisplay "Constitution" character.con Character.Types.IncreaseCon
+    Character.Types.DecreaseCon)
+  ,(modifierDisplay "Intelligence" character.int Character.Types.IncreaseInt
+    Character.Types.DecreaseInt)
+  ,(modifierDisplay "Wisdom" character.wis Character.Types.IncreaseWis
+    Character.Types.DecreaseWis)
+  ,(modifierDisplay "Charisma" character.cha Character.Types.IncreaseCha
+    Character.Types.DecreaseCha)]
 
-modifierDisplay : String -> Int -> Html Msg
-modifierDisplay name ability =
+modifierDisplay : String -> Int -> CharacterMsg -> CharacterMsg -> Html Msg
+modifierDisplay name ability increase decrease =
   div [
     style [ ("width", "100px")
     , ("border", "solid 1px black")
@@ -51,7 +57,22 @@ modifierDisplay name ability =
     , ("font-size", "2em") ]] [ text (calculateModifierFromAbility ability)]
     , div [style [ ("width", "100px")
     , ("text-align", "center")
-    , ("font-size", "0.6em") ]] [ text (toString ability)]
+    , ("font-size", "0.6em") ]] [
+    button [onClick (Types.CharacterMsg decrease)
+    , style [ ("float", "left")
+    , ("padding", "0")
+    , ("padding-left", "2px")
+    , ("padding-right", "2px")
+    , ("margin-left", "0.6em")
+    , ("font-size", "0.8em")]] [text "-"]
+    , text (toString ability)
+    , button [onClick (Types.CharacterMsg increase)
+    , style [ ("float", "right")
+    , ("padding", "0")
+    , ("padding-left", "2px")
+    , ("padding-right", "2px")
+    , ("margin-right", "0.6em")
+    , ("font-size", "0.8em")]] [text "+"]]
   ]
 
 calculateModifierFromAbility : Int -> String

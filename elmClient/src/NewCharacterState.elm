@@ -1,9 +1,9 @@
 module NewCharacterState exposing (update, subscriptions)
 
-import Types exposing (MainModel, Msg)
+import Types exposing (MainModel, Msg, MainMessages)
 import Rest exposing (postNewCharacter)
 
-update : Msg -> MainModel -> (Types.Model, Cmd Msg)
+update : MainMessages -> MainModel -> (Types.Model, Cmd Msg)
 update action model =
   case action of
     Types.SucessfulPost result ->

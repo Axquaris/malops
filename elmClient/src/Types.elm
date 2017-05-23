@@ -17,8 +17,9 @@ type alias MainModel =
 
 
 
-type alias Msg
-  = MainMessages
+type Msg
+  = MainMsg MainMessages
+  | CharacterMsg Character.Types.CharacterMsg
 
 type MainMessages =
   NewCharacterView

@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (..)
 
-import Types exposing (Model, Msg, MainModel)
+import Types exposing (Msg, Model, MainMessages, MainModel)
 import CommonTypes exposing (Character)
 import NewCharacterView
 import Character.View
@@ -26,7 +26,7 @@ root variableModel =
 generateCharacterList : MainModel -> Html Msg
 generateCharacterList model =
     div [] [
-      button [ onClick Types.NewCharacterView ] [ text "Create New Character" ]
+      button [ onClick (Types.MainMsg Types.NewCharacterView) ] [ text "Create New Character" ]
       ,div [] (List.map generateCharacterDiv model.characters)
       ]
 
@@ -36,5 +36,5 @@ generateCharacterDiv character =
   div [] [
     h2 [] [text ( character.name )]
     , div [] [text ("XP: " ++ (toString character.xp))]
-    , button [ onClick (Types.PlayCharacter character)] [text "Play"]
+    , button [ onClick (Types.MainMsg (Types.PlayCharacter character))] [text "Play"]
   ]
